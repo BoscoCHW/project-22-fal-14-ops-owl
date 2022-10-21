@@ -22,10 +22,6 @@ class AppTestCase(unittest.TestCase):
         json = response.get_json()
         assert "timeline_posts" in json
         assert len(json["timeline_posts"]) == 0
-        # TODO test GET and POST Endpoints
-        # TODO Test timeline page
-        
-
 
     def test_timeline_post(self):
         post = {
