@@ -3,6 +3,7 @@
 
 
 <div class="card p-3 m-3">
+  <div id="error-msg" class="mb-3"></div>
   <form id="post_form" action="/api/timeline_post" method="post">
 
     <div class="form-group p-1 m-1">
@@ -29,7 +30,7 @@
 </div>
 
 <div class="card p-3 m-3">
-  <h3 class="m-auto">Timeline Posts:</h3> 
+  <h3 class="m-auto">Timeline Posts:</h3>
   {% for post in posts %}
   <div class="post-item mb-4">
     <div class="exp-title fw-bolder"> {{ post.name }} | {{ post.created_at }} </div>
@@ -43,19 +44,30 @@
 <script>
 
   const form = document.querySelector("#post_form")
-  form.addEventListener('submit', function(e) {
+  form.addEventListener('submit', async function (e) {
     e.preventDefault();
     const payload = new FormData(form);
     payload.set("name", document.querySelector('#name').value)
     payload.set("email", document.querySelector('#email').value)
     payload.set("content", document.querySelector('#content').value)
-    fetch('/api/timeline_post', {
-    method: 'POST',
-    body: payload,
+    const response = await fetch('/api/timeline_post', {
+      method: 'POST',
+      body: payload,
     })
-    .then(res => window.location="/timeline")
-    // .then(data => console.log(data))
-})
+
+    if (response.ok) {
+      window.location = "/timeline"
+    } else {
+      if (response.status === 429){
+        const errorMsg = document.querySelector("#error-msg");
+        errorMsg.textContent = "Api limit excceeded. Please try again in 1 minute.";
+      } else {
+        console.log(await response.text())
+      }
+    }
+  }
+  )
+
 </script>
 
 
