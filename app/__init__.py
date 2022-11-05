@@ -32,7 +32,7 @@ class TimelinePost(Model):
 mydb.connect()
 mydb.create_tables([TimelinePost])
 
-TEAM_NAME = "The Ops Owlssss"
+TEAM_NAME = "The Ops Owls"
 
 @app.route('/api/timeline_post/<int:post_id>', methods=['DELETE'])
 def delete_time_line_post(post_id):
