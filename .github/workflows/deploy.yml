@@ -39,5 +39,9 @@ jobs:
       - name: Print Container Status
         run: ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && docker compose ps'
 
-      - name: Send Deployment Status Update to Discord
+      - name: Send Deployment Success Message to Discord
         run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployment Successful"
+        
+      - name: Send Deployment Failure Message to Discord
+        if: failure()
+        run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚨 Deployment Failed"
