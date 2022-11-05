@@ -32,6 +32,8 @@ class TimelinePost(Model):
 mydb.connect()
 mydb.create_tables([TimelinePost])
 
+TEAM_NAME = "The Ops Owls"
+
 @app.route('/api/timeline_post/<int:post_id>', methods=['DELETE'])
 def delete_time_line_post(post_id):
     success = TimelinePost.delete_by_id(post_id)
@@ -80,7 +82,7 @@ def portfolio(name):
 
     if not portfolio_data:
         names = map(lambda x: x["name"].lower(), data)
-        return render_template('index.html', title="The Ops Owls", url=os.getenv("URL"), names=names)
+        return render_template('index.html', title=TEAM_NAME, url=os.getenv("URL"), names=names)
 
     return render_template("profile.html", portfolio_data=portfolio_data, api_key=os.getenv("GOOGLE_MAPS_API_KEY"))
 
@@ -93,7 +95,7 @@ def timeline():
 def index():
     data = getData()
     names = map(lambda x: x["name"].lower(), data)
-    return render_template('index.html', title="The Ops Owls", url=os.getenv("URL"), names=names)
+    return render_template('index.html', title=TEAM_NAME, url=os.getenv("URL"), names=names)
 
 def getData():
     SITE_ROOT = os.path.realpath(os.path.dirname(__file__))
