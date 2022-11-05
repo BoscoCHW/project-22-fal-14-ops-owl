@@ -46,4 +46,10 @@ jobs:
         if: failure()
         run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚨 Deployment Failed"
 
-
+  send_msg_on_failure:
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    name: "Notify failure"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Deployment Failure Message to Discord
+        run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚨 Deployment Failed"
